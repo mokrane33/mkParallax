@@ -1,4 +1,4 @@
 # mkParallax
 jquery parallax 
-image bacckgroud parllax work with mobile devices 
+image backgroud parallax image, work with mobile devices 
 
