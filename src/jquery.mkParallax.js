@@ -10,10 +10,9 @@
         $(el).css("background-size", "cover");
         $(el).css("height", "0");
         $(el).css("width", "100%");
-        // $(el).css("z-index", "-1");
+        $(el).css("z-index", "-1");
         $(el).css("position", "absolute");
         $(el).css("top", container.offset().top);
-        // el.attr("id","kkkk");
         $("body").prepend(el);
         $(window).scroll(function () {
             if(
