@@ -3,37 +3,73 @@
  */
 (function( $ ) {
     $.fn.mkParallax=function(params){
-        var container=$(this);
-       image= container.attr("data-image");
-       var el=document.createElement("div");
-        $(el).css("background-image", "url('"+image+"')");
-        $(el).css("background-size", "cover");
-        $(el).css("height", "0");
-        $(el).css("width", "100%");
-        $(el).css("z-index", "-1");
-        $(el).css("position", "absolute");
-        $(el).css("top", container.offset().top);
-        $("body").prepend(el);
-        $(window).scroll(function () {
-            if(
-                ($(window).scrollTop()>(container.offset().top-$(window).height()))
-                &&
-                ( $(window).scrollTop()<(container.offset().top+container.height())
-                )){
-                    $(el).css("position", "fixed");
-                    $(el).css("top", 0);
-                $(el).css("height", $(window).height());
-
-            }else{
-                $(el).css("position", "absolute");
-                $(el).css("top", container.offset().top);
-                $(el).css("height", "0");
+        var isMobile = {
+            Android: function() {
+                return navigator.userAgent.match(/Android/i);
+            },
+            BlackBerry: function() {
+                return navigator.userAgent.match(/BlackBerry/i);
+            },
+            iOS: function() {
+                return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+            },
+            Opera: function() {
+                return navigator.userAgent.match(/Opera Mini/i);
+            },
+            Windows: function() {
+                return navigator.userAgent.match(/IEMobile/i);
+            },
+            any: function() {
+                return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
             }
-        });
-        $(window).resize(function(){
+        };
+        var container=$(this);
+        image= container.attr("data-image");
+        if(isMobile.any()){
+            container.css('position','relative');
+            var prent=document.createElement("div");
+            $(prent).css("position", "absolute");
+            $(prent).css("top", "0");
+            $(prent).css("left", "0");
+            $(prent).css("height", "100%");
+            $(prent).css("width", "100%");
+            $(prent).css("overflow", "hidden");
+            var el=document.createElement("div");
+            $(el).css("background-image", "url('"+image+"')");
+            $(el).css("background-size", "cover");
             $(el).css("height", $(window).height());
-            $(el).css("top", container.offset().top);
-        });
+            $(el).css("width", "100%");
+            $(el).css("position", "absolute");
+            if(0>container.offset().top-$(window).scrollTop())
+                $(el).css('top','0');
+            if(container.offset().top-$(window).scrollTop()>$(window).height())
+                $(el).css('top',-$(window).height());
+            container.prepend(prent);
+            $(prent).prepend(el);
+            $(window).scroll(function () {
+                if(0<=container.offset().top-$(window).scrollTop()<=$(window).height())
+                {
+                    $(el).css('top',$(window).scrollTop()-container.offset().top);
+                }
+            });
+            $(window).resize(function(){
+                if(0>container.offset().top-$(window).scrollTop())
+                    $(el).css('top','0');
+
+                if(container.offset().top-$(window).scrollTop()>$(window).height())
+                    $(el).css('top',-$(window).height());
+                if(0<=container.offset().top-$(window).scrollTop()<=$(window).height())
+                {
+                    $(el).css('top',$(window).scrollTop()-container.offset().top);
+                }
+            });
+        }else
+        {
+            container.css("background-image", "url('"+image+"')");
+            container.css("background-attachment", "fixed");
+            container.css("background-size", "cover");
+
+        }
         return this;
     }
 }( jQuery ));
