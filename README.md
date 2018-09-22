@@ -6,7 +6,7 @@ jquery parallax
 
 Backgroud parallax image, work with mobile devices 
 
-Example using jsDelivr
+Example using  mkParallax
 ----
 
 Just add the js file before your closing <body> tag add:
