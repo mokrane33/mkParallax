@@ -34,12 +34,14 @@
             $(prent).css("height", "100%");
             $(prent).css("width", "100%");
             $(prent).css("overflow", "hidden");
+            $(prent).css("z-index", "-1");
             var el=document.createElement("div");
             $(el).css("background-image", "url('"+image+"')");
             $(el).css("background-size", "cover");
             $(el).css("height", $(window).height());
             $(el).css("width", "100%");
             $(el).css("position", "absolute");
+            // $(el).css("z-index","-1");
             if(0>container.offset().top-$(window).scrollTop())
                 $(el).css('top','0');
             if(container.offset().top-$(window).scrollTop()>$(window).height())
