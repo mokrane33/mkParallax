@@ -26,45 +26,28 @@
         var container=$(this);
         image= container.attr("data-image");
         if(isMobile.any()){
+           
             container.css('position','relative');
-            var prent=document.createElement("div");
-            $(prent).css("position", "absolute");
-            $(prent).css("top", "0");
-            $(prent).css("left", "0");
-            $(prent).css("height", "100%");
-            $(prent).css("width", "100%");
-            $(prent).css("overflow", "hidden");
-            $(prent).css("z-index", "-1");
-            var el=document.createElement("div");
-            $(el).css("background-image", "url('"+image+"')");
-            $(el).css("background-size", "cover");
-            $(el).css("height", $(window).height());
-            $(el).css("width", "100%");
-            $(el).css("position", "absolute");
-            // $(el).css("z-index","-1");
-            if(0>container.offset().top-$(window).scrollTop())
-                $(el).css('top','0');
-            if(container.offset().top-$(window).scrollTop()>$(window).height())
-                $(el).css('top',-$(window).height());
-            container.prepend(prent);
-            $(prent).prepend(el);
+            container.css("background-image","url('"+image+"')");
+
+
+            container.css('background-position-x',"center");
+            if(container.height()>$(window).height())
+                container.css("background-size", "cover");
+            else
+                container.css("background-size", "auto "+($(window).height()+100)+"px");
+             $(container).css('background-position-y',-(container.offset().top-$(window).scrollTop()));
             $(window).scroll(function () {
-                if(0<=container.offset().top-$(window).scrollTop()<=$(window).height())
-                {
-                    $(el).css('top',$(window).scrollTop()-container.offset().top);
-                }
+                $(container).css('background-position-y',-(container.offset().top-$(window).scrollTop()));
             });
             $(window).resize(function(){
-                if(0>container.offset().top-$(window).scrollTop())
-                    $(el).css('top','0');
+                if(container.height()>$(window).height())
+                    container.css("background-size", "cover");
+                else
+                    container.css("background-size", "auto "+($(window).height()+100)+"px");
 
-                if(container.offset().top-$(window).scrollTop()>$(window).height())
-                    $(el).css('top',-$(window).height());
-                if(0<=container.offset().top-$(window).scrollTop()<=$(window).height())
-                {
-                    $(el).css('top',$(window).scrollTop()-container.offset().top);
-                }
-            });
+                $(container).css('background-position-y',-(container.offset().top-$(window).scrollTop()));
+           });
         }else
         {
             container.css("background-image", "url('"+image+"')");
